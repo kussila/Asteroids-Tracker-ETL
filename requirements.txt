@@ -1,0 +1,12 @@
+# Existing libraries
+pandas==2.2.2
+requests
+python-dotenv
+tabulate
+
+
+psycopg2-binary # Used by SQLAlchemy to connect to Postgres
+sqlalchemy==2.0.28
+
+# New library for the frontend
+streamlit==1.33.0

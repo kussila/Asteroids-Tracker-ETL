@@ -1,0 +1,23 @@
+# --- Environment & Configuration ---
+.env
+.vscode/
+
+# --- Python & Cache ---
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.venv/
+
+# --- Temporary Data & Logs ---
+logs/
+data/                       # Ignore entire data folder (raw + clean files)
+
+# --- Docker & Database ---
+neo_db_data/                # PostgreSQL volume
+*.db
+
+# --- Streamlit ---
+.streamlit/

@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # 1. ETL Application Service (Modified for Streamlit)
+  etl-app:
+    build: .
+    container_name: neo_etl_processor
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    # --- CHANGE 1: Expose port 8501 for the Streamlit Web Interface ---
+    ports:
+      - "8501:8501" 
+    # --- CHANGE 2: Run the Streamlit application instead of the ETL pipeline ---
+    command: streamlit run app.py --server.port 8501 --server.enableCORS false
+    # Link to the database service
+    depends_on:
+      - postgres-db
+    networks:
+      - neo_network 
+
+  # 2. PostgreSQL Database Service (No changes needed)
+  postgres-db:
+    image: postgres:14-alpine
+    container_name: neo_postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5433:5432" 
+    volumes:
+      - neo_db_data:/var/lib/postgresql/data
+    networks:
+      - neo_network
+
+# Define the volumes and network used by the services
+volumes:
+  neo_db_data:
+
+networks:
+  neo_network:
+    driver: bridge
